@@ -1,11 +1,9 @@
 # Laravel Pagination
-
 Create beautiful and SEO friendly links for pagination.
 
 ---
 
 ## Installation and Requirements
-
 First, you'll need to add the package to the require attribute of your composer.json file:
 
 ```json
@@ -17,16 +15,13 @@ First, you'll need to add the package to the require attribute of your composer.
 ```
 
 Afterwards, run `composer update` from your command line.
-
-And finaly, open  `config/app.php`. Find `'Illuminate\Pagination\PaginationServiceProvider'` replace with `'Mayoz\Pagination\PaginationServiceProvider'` in providers array.
-
+And finaly, open  `config/app.php`. Find `'Illuminate\Pagination\PaginationServiceProvider'` and replace with `'Mayoz\Pagination\PaginationServiceProvider'` in providers array.
 
 ## Using
-
-This is very easy.
+This is very easy. Consider the following examples. I accept to have your model. Create route, controller and view.
 
 ### Route
-Define your own route in `app\Http\routes`;
+Define route in `app\Http\routes`;
 
 ```php
 <?php
@@ -37,6 +32,7 @@ $router->get('articles/{page?}', [
 ```
 
 ### Controller
+Cool. Don't write extra code!
 
 ```php
 <?php namespace App\Http\Controllers;
@@ -46,7 +42,7 @@ use App\Article;
 class HomeController {
 
     public function articles()
-	{
+    {
         $articles = Article::paginate(5);
 
         return view('articles', compact('articles'));
@@ -56,6 +52,7 @@ class HomeController {
 
 ### View
 Core pagination class not changed. Can use all the features offered by Laravel.
+
 ```blade
 <ul>
     @foreach ($articles as $article)
@@ -70,9 +67,12 @@ You also use;
  - `{!! $articles->appends([ 'sort' => 'vote ])->links() !!}`
  - `{!! $articles->links('pagination.special') !!}`
  - or future methods...
- -
 
 ## Output examples
+The following outputs are generated. I think that's enough examples. As possible, SEO friendly. Nevertheless, please check your url. Use `canonical` metadata if necessary.
+
+Use such as {page?}, if page pattern at the end of the route.
+
 ```php
 <?php
 $router->get('articles/{page?}', [
@@ -80,10 +80,13 @@ $router->get('articles/{page?}', [
     'uses' => 'HomeController@articles'
 ]);
 ```
-Use such as {page?}, if page pattern at the end of the route. Outputs:
+
+Outputs:
 - /articles
 - /articles/2
 - /articles/3
+
+If {page} pattern in the middle of the route, no need to question mark.
 
 ```php
 <?php
@@ -92,19 +95,22 @@ $router->get('module/{page}/articles', [
     'uses' => 'HomeController@articles'
 ]);
 ```
-If {page} pattern in the middle of the route, no need to question mark. Outputs:
+
+Outputs:
 - /module/1/articles
 - /module/2/articles
 - /module/3/articles
 
-## Helper methods
-If you need to use another route instead of the current route, use the `route()` method. This method accepts the route name and route parameters.
+## Using special route
+If you need to use another route instead of the current route, use the `route()` method. This method accepts the route name and route arguments.
+> **NOTE**: Second arg is optional. This arg for special routes parameters.
 
 ### Routes
 Routes is different but used same controller and view.
+
 ```php
 <?php
-$router->get('/articles', [
+$router->get('articles', [
     'as'   => 'articles',
     'uses' => 'HomeController@articles'
 ]);
@@ -118,7 +124,8 @@ $router->get('articles/{module}/{page?}', [
 ### Controller
 The same as the previous definition. Added special route (its name article.paginate) for pagination url builder. This route required one parameter (module) except {page}.
 
-Set automatically route parameters if on current route.
+> **NOTE:** Set automatically route parameters on current route.
+
 ```php
 <?php namespace App\Http\Controllers;
 
@@ -127,7 +134,7 @@ use App\Article;
 class HomeController {
 
     public function articles()
-	{
+    {
         $articles = Article::paginate(5);
         $articles->route('articles.paginate', [ 'module' => 'photo' ]);
 
@@ -140,8 +147,6 @@ Outputs:
 - /articles/photo
 - /articles/photo/2
 - /articles/photo/3
-
-> **NOTE**: Second parameter is optional for route method.
 
 ## Contribute
 Install and use this package. If find bug, fix and send a pull request on the develop branch.
