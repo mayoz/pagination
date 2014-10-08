@@ -1,6 +1,7 @@
 # Laravel Pagination
 
 Create beautiful and SEO friendly links for pagination.
+
 ---
 
 ## Installation and Requirements
