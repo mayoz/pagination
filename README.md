@@ -64,7 +64,7 @@ Core pagination class not changed. Can use all the features offered by Laravel.
 ```
 
 You also use;
- - `{!! $articles->appends([ 'sort' => 'vote ])->links() !!}`
+ - `{!! $articles->appends([ 'sort' => 'vote' ])->links() !!}`
  - `{!! $articles->links('pagination.special') !!}`
  - or future methods...
 
